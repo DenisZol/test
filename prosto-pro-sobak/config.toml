@@ -1,0 +1,64 @@
+baseURL = 'https://example.com/'
+languageCode = 'ru'
+title = 'Prosto pro sobak'
+defaultContentLanguage = 'ru'
+
+[menu]
+  [[menu.main]]
+    identifier = '01-want'
+    name = 'Хочу собаку'
+    url = '/01-want/'
+    weight = 1
+
+  [[menu.main]]
+    identifier = '02-home'
+    name = 'В доме'
+    url = '/02-home/'
+    weight = 2
+
+  [[menu.main]]
+    identifier = '03-understand'
+    name = 'Понимать'
+    url = '/03-understand/'
+    weight = 3
+
+  [[menu.main]]
+    identifier = '04-care'
+    name = 'Уход'
+    url = '/04-care/'
+    weight = 4
+
+  [[menu.main]]
+    identifier = '05-health'
+    name = 'Здоровье'
+    url = '/05-health/'
+    weight = 5
+
+  [[menu.main]]
+    identifier = '06-society'
+    name = 'В обществе'
+    url = '/06-society/'
+    weight = 6
+
+  [[menu.main]]
+    identifier = '07-help'
+    name = 'Помощь'
+    url = '/07-help/'
+    weight = 7
+
+  [[menu.main]]
+    identifier = '08-regions'
+    name = 'Регионы'
+    url = '/08-regions/'
+    weight = 8
+
+  [[menu.main]]
+    identifier = '99-service'
+    name = 'Сервис'
+    url = '/99-service/'
+    weight = 9
+
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4

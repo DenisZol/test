@@ -1,0 +1,10 @@
+{{ define "main" }}
+<h1>{{ .Site.Title }}</h1>
+{{ .Content }}
+<h2>Разделы</h2>
+<ul>
+{{ range .Site.Menus.main }}
+  <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+{{ end }}
+</ul>
+{{ end }}
