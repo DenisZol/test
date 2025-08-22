@@ -28,10 +28,7 @@ End-to-end помощник для кейса Help Global.
 
 from __future__ import annotations
 import argparse
-import io
-import os
 import re
-import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -71,7 +68,6 @@ spec.loader.exec_module(parser_Invoice)               # type: ignore
 # ────────── SIMPLE FOLDER-CREATOR (адаптировано) ──────────
 CONSTANT_TEXT = "XXX"
 FORBIDDEN = r'<>:"/\\|?*'
-
 
 def sanitize(name: str) -> str:
     """Удаляет запрещённые символы из имени папки."""
@@ -159,11 +155,8 @@ def find_first_pdf(service, parent_id: str, prefix: str) -> Optional[Dict]:
     return None
 
 
-FORBIDDEN = r'<>:"/\\|?*'
-
 def _clean_filename(name: str) -> str:
     """Убирает запрещённые символы Windows и лишние пробелы/точки."""
-    import re
     name = re.sub(f"[{re.escape(FORBIDDEN)}]", "_", name)
     return name.strip(" .")
 
@@ -173,15 +166,15 @@ def download_pdf(service, file_meta: Dict, local_name: str) -> Path:
         local_name += ".pdf"
     # 2. чистим имя
     local_name = _clean_filename(local_name)
+    local_path = Path(local_name)
 
     request = service.files().get_media(fileId=file_meta["id"])
-    with io.FileIO(local_name, "wb") as fh:
+    with local_path.open("wb") as fh:
         downloader = MediaIoBaseDownload(fh, request)
         done = False
         while not done:
-            downloader.next_chunk()
-            done = downloader._done  # type: ignore
-    return Path(local_name).resolve()
+            _, done = downloader.next_chunk()
+    return local_path.resolve()
 
 
 # ────────── SHEETS APPEND ──────────
@@ -250,9 +243,9 @@ def main():
         print(f"📁 Используем существующую папку: {target_dir.name}")
 
     # 5. Перемещаем PDF
-    shutil.move(str(inv_local), target_dir / inv_local.name)
+    inv_local.replace(target_dir / inv_local.name)
     if ga_local:
-        shutil.move(str(ga_local), target_dir / ga_local.name)
+        ga_local.replace(target_dir / ga_local.name)
 
     # 6. Append to Google Sheet
     row = [
